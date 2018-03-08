@@ -2,6 +2,8 @@
 .timg - An unnecessary file type.
 ## What is this?
 Just a stupid project I decided to make.
+## What is this branch?
+This branch adds alpha (transparency) to timg.
 ## How to use
 To convert an image to a timg file, just drag it onto the "imgToTimg.py" file.
 To convert an timg file to png, just drag it onto the "timgToPng.py" file.

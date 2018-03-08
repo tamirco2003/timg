@@ -31,18 +31,21 @@ del timg[0] # Delete it from the array.
 numOfRow = "" # Create new string for number of lines in hex.
 
 for x in range(0, lenOfNumOfRow):
-    numOfRow += timg[0] # Add hex of number of lines.
-    del timg[0] # Delete bytes of number of lines from array.
+	if len(timg[0]) == 2:
+		numOfRow += timg[0] # Add hex of number of lines.
+	else:
+		numOfRow += "0" + timg[0]
+	del timg[0] # Delete bytes of number of lines from array.
 
 numOfRow = int(numOfRow, 16) # Make number of lines an integer.
 timg = devideIntoEqualParts(timg, int(len(timg) / numOfRow)) # Devide file into rows.
-timg = [devideIntoEqualParts(row, 3) for row in timg] # Devide rows into pixels.
+timg = [devideIntoEqualParts(row, 4) for row in timg] # Devide rows into pixels.
 timg = [[[np.uint8(int(color, 16)) for color in pixel] for pixel in row] for row in timg] # Make all colors uint8.
 timg = np.asarray(timg) # Turn list into array.
 
 root = Tk()
 
-timgImg = PIL.ImageTk.PhotoImage(PIL.Image.fromarray(timg))
+timgImg = PIL.ImageTk.PhotoImage(PIL.Image.fromarray(timg, mode="RGBA"))
 label = Label(root, image = timgImg)
 label.grid(row = 0)
 
