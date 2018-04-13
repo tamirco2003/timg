@@ -34,6 +34,7 @@ for x in range(0, lenOfNumOfRow):
 	else:
 		numOfRow += "0" + timg[0]
 	del timg[0] # Delete bytes of number of lines from array.
+    
 numOfRow = int(numOfRow, 16) # Make number of lines an integer.
 timg = devideIntoEqualParts(timg, int(len(timg) / numOfRow)) # Devide file into rows.
 timg = [devideIntoEqualParts(row, 4) for row in timg] # Devide rows into pixels.

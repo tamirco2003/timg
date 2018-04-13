@@ -5,14 +5,29 @@ import binascii
 
 file_name = sys.argv[1] # Get file name.
 
-imgArray = np.asarray(Image.open(file_name).convert('RGBA')) # Turn image into array.\
+imgArray = np.asarray(Image.open(file_name).convert('RGBA')) # Turn image into array.
 
-imgArray = [[[hex(color)[2:] for color in pixel] for pixel in row] for row in imgArray] # Turn decimal ints into colors (hex).
-imgArray = [[['0' + color if len(color) == 1 else color for color in pixel] for pixel in row] for row in imgArray] # Made sure all colors have 2 digits.
-imgArray = [[''.join(pixel) for pixel in row] for row in imgArray] # Joined colors into pixels.
-imgArray = [''.join(row) for row in imgArray] # Joined pixels into rows.
-numOfRow = '0' + hex(len(imgArray))[2:] if len(hex(len(imgArray))[2:]) % 2 == 1 else hex(len(imgArray))[2:] # Add 0 to each 1 digit byte.
-lenOfNumOfRow = '0' + hex(int(len(numOfRow) / 2))[2:] if len(hex(int(len(numOfRow) / 2))[2:]) % 2 == 1 else hex(int(len(numOfRow) / 2))[2:] # Add 0 to each 1 digit byte.
+def colorToHex(color):
+    hexColor = hex(color)[2:] # Turn decimal ints into colors (hex).
+    if (len(hexColor) < 2):
+        hexColor = '0' + hexColor # Made sure all colors have 2 digits.
+    return hexColor
+
+def joinArray(array):
+    array = [[''.join(pixel) for pixel in row] for row in array] # Joined colors into pixels.
+    array = [''.join(row) for row in array] # Joined pixels into rows.
+    return array
+
+def addZero(string):
+    if (len(string) % 2 != 0):
+        return '0' + string
+    else:
+        return string
+
+imgArray = [[[colorToHex(color) for color in pixel] for pixel in row] for row in imgArray]
+imgArray = joinArray(imgArray)
+numOfRow = addZero(hex(len(imgArray))[2:])
+lenOfNumOfRow = addZero(hex(int(len(numOfRow) / 2))[2:])
 imgArray = lenOfNumOfRow + numOfRow + ''.join(imgArray) # Joined rows into string.
 
 output = open("out.timg","wb") # Make a new timg file.
